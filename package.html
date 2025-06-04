@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookVault | Second-Hand Books Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #f8b400;
+            --light: #f7f7f7;
+            --dark: #333;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #2c5282);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            padding: 0.5rem;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 0 0.5rem;
+            min-width: 200px;
+        }
+        
+        .search-bar button {
+            background: var(--secondary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .cart-icon {
+            position: relative;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: var(--dark);
+            font-size: 0.8rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(74, 111, 165, 0.8), rgba(44, 82, 130, 0.9)), 
+                        url('https://images.unsplash.com/photo-1495640388908-05fa85288e61?ixlib=rb-4.0.3') center/cover;
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Categories */
+        .categories {
+            padding: 3rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .category-card h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Books Section */
+        .featured-books {
+            padding: 3rem 1rem;
+            background: white;
+        }
+        
+        .books-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--warning);
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        
+        .book-image {
+            height: 280px;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        .book-image img {
+            max-height: 100%;
+            max-width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .book-details {
+            padding: 1.5rem;
+        }
+        
+        .book-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .book-author {
+            color: #666;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .book-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .original-price {
+            font-size: 0.9rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .book-condition {
+            display: inline-block;
+            background: #e8f5e9;
+            color: var(--success);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-to-cart:hover {
+            background: #3a5a80;
+        }
+        
+        /* How it works */
+        .how-it-works {
+            padding: 4rem 1rem;
+            background: var(--light);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .step i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 4rem 1rem;
+            background: white;
+            text-align: center;
+        }
+        
+        .testimonial-container {
+            max-width: 800px;
+            margin: 2rem auto 0;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 3rem;
+            color: rgba(0,0,0,0.1);
+            position: absolute;
+        }
+        
+        .testimonial-text::before {
+            top: -20px;
+            left: -10px;
+        }
+        
+        .testimonial-text::after {
+            bottom: -40px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .rating {
+            color: var(--warning);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Sell Books Section */
+        .sell-books {
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, #f8b400, #ff9800);
+            color: white;
+            text-align: center;
+        }
+        
+        .sell-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 1rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #444;
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .newsletter-form button {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 0 1rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-bar {
+                flex: 1;
+            }
+        }
+        
+        /* SELL BOOKS MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), #2c5282);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+        
+        .sell-steps {
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            background: #f0f5ff;
+        }
+        
+        .step-indicator {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d0d0d0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.85rem;
+            color: #666;
+            white-space: nowrap;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .step-divider {
+            width: 40px;
+            height: 2px;
+            background: #d0d0d0;
+            margin: 0 0.5rem;
+            align-self: center;
+        }
+        
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f5ff;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .price-input-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .price-input-group input {
+            flex: 1;
+        }
+        
+        .condition-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        
+        .condition-badge {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .condition-badge:hover {
+            background: #f0f5ff;
+            border-color: var(--primary);
+        }
+        
+        .condition-badge.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .image-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: #f8fbff;
+        }
+        
+        .image-upload-area i {
+            font-size: 3rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+        
+        .image-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .image-preview {
+            position: relative;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-image:hover {
+            background: #e74c3c;
+        }
+        
+        .review-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .review-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .review-item {
+            display: flex;
+            margin-bottom: 0.8rem;
+        }
+        
+        .review-label {
+            font-weight: 600;
+            width: 120px;
+            color: #555;
+        }
+        
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            border-radius: 0 0 15px 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #ddd;
+            color: #666;
+        }
+        
+        .btn-outline:hover {
+            background: #f0f0f0;
+            border-color: #ccc;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a5a80;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e6a300;
+        }
+        
+        .progress-container {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 25%;
+            transition: width 0.5s ease;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            animation: bounce 1s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .success-message h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-book"></i>
+                <span>BookVault</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Browse Books</a></li>
+                    <li><a href="#" id="navSellLink">Sell Books</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search books...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Pre-Loved Books at Amazing Prices</h1>
+            <p>Find your next favorite read from our curated collection of second-hand books in excellent condition. Save money and reduce waste!</p>
+            <button class="cta-button">Browse Books</button>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <h2 class="section-title">Browse by Category</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <i class="fas fa-book"></i>
+                <h3>Fiction</h3>
+                <p>2,500+ books</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Textbooks</h3>
+                <p>1,800+ books</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-child"></i>
+                <h3>Children's</h3>
+                <p>900+ books</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Business</h3>
+                <p>750+ books</p>
+            </div>
+            <div class="category-card">
+                <i class="fas fa-history"></i>
+                <h3>History</h3>
+                <p>1,200+ books</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books -->
+    <section class="featured-books">
+        <div class="books-container">
+            <h2 class="section-title">Featured Books</h2>
+            <div class="books-grid">
+                <!-- Book 1 -->
+                <div class="book-card">
+                    <div class="discount-badge">Save 25%</div>
+                    <div class="book-image">
+                        <img src="https://m.media-amazon.com/images/I/71tR3ZE+jJL._AC_UF1000,1000_QL80_.jpg" alt="The Great Gatsby">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">The Great Gatsby</h3>
+                        <p class="book-author">F. Scott Fitzgerald</p>
+                        <div class="price-container">
+                            <div class="book-price">$8.99</div>
+                            <div class="original-price">$11.99</div>
+                        </div>
+                        <span class="book-condition">Like New</span>
+                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Book 2 -->
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="https://m.media-amazon.com/images/I/71kxa1-0mfL._AC_UF1000,1000_QL80_.jpg" alt="To Kill a Mockingbird">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">To Kill a Mockingbird</h3>
+                        <p class="book-author">Harper Lee</p>
+                        <div class="price-container">
+                            <div class="book-price">$7.50</div>
+                            <div class="original-price">$9.99</div>
+                        </div>
+                        <span class="book-condition">Good</span>
+                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Book 3 -->
+                <div class="book-card">
+                    <div class="discount-badge">Save 30%</div>
+                    <div class="book-image">
+                        <img src="https://m.media-amazon.com/images/I/71dE7aVzSLL._AC_UF1000,1000_QL80_.jpg" alt="1984">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">1984</h3>
+                        <p class="book-author">George Orwell</p>
+                        <div class="price-container">
+                            <div class="book-price">$6.25</div>
+                            <div class="original-price">$8.99</div>
+                        </div>
+                        <span class="book-condition">Very Good</span>
+                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Book 4 -->
+                <div class="book-card">
+                    <div class="book-image">
+                        <img src="https://m.media-amazon.com/images/I/71k0cry-ceL._AC_UF1000,1000_QL80_.jpg" alt="Pride and Prejudice">
+                    </div>
+                    <div class="book-details">
+                        <h3 class="book-title">Pride and Prejudice</h3>
+                        <p class="book-author">Jane Austen</p>
+                        <div class="price-container">
+                            <div class="book-price">$5.99</div>
+                            <div class="original-price">$7.99</div>
+                        </div>
+                        <span class="book-condition">Good</span>
+                        <button class="add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <i class="fas fa-search"></i>
+                <h3>Browse Books</h3>
+                <p>Explore our vast collection of second-hand books across various categories.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-cart-plus"></i>
+                <h3>Add to Cart</h3>
+                <p>Select the books you want and add them to your shopping cart.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-credit-card"></i>
+                <h3>Secure Checkout</h3>
+                <p>Complete your purchase with our secure checkout process.</p>
+            </div>
+            <div class="step">
+                <i class="fas fa-truck"></i>
+                <h3>Fast Delivery</h3>
+                <p>Your books will be shipped to you in protective packaging.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-container">
+            <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"I've been buying second-hand books from BookVault for over a year now. The quality is always excellent and prices are unbeatable. Highly recommended for book lovers on a budget!"</p>
+            <p class="testimonial-author">- Sarah Johnson, Avid Reader</p>
+        </div>
+    </section>
+
+    <!-- Sell Books Section -->
+    <section class="sell-books">
+        <div class="sell-container">
+            <h2 class="section-title">Have Books to Sell?</h2>
+            <p>Turn your pre-loved books into cash with our simple selling process</p>
+            <button class="cta-button" id="sellBooksBtn">Sell Your Books</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About BookVault</h3>
+                <p>We're on a mission to make reading affordable and sustainable by connecting book lovers with quality second-hand books.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Browse Books</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Sell Your Books</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Shipping Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Returns & Refunds</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get special offers and book recommendations</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Your email address">
+                    <button><i class="fas fa-paper-plane"></i></button>
+                </div>
+                <h3 style="margin-top: 1.5rem;">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Book Street, Library City</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> (123) 456-7890</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> info@bookvault.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 BookVault. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Sell Books Modal -->
+    <div class="modal-overlay" id="sellModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-book"></i> Sell Your Book</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="sell-steps">
+                <div class="step-indicator">
+                    <div class="step active" data-step="1">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">Book Details</div>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step" data-step="2">
+                        <div class="step-circle">2</div>
+                        <div class="step-label">Condition & Price</div>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step" data-step="3">
+                        <div class="step-circle">3</div>
+                        <div class="step-label">Photos</div>
+                    </div>
+                    <div class="step-divider"></div>
+                    <div class="step" data-step="4">
+                        <div class="step-circle">4</div>
+                        <div class="step-label">Review</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Step 1: Book Details -->
+                <div class="form-step active" id="step1">
+                    <h3 class="form-title">Book Information</h3>
+                    <div class="form-group">
+                        <label for="bookTitle">Book Title *</label>
+                        <input type="text" id="bookTitle" placeholder="Enter book title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Author *</label>
+                        <input type="text" id="bookAuthor" placeholder="Enter author name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bookIsbn">ISBN (Optional)</label>
+                            <input type="text" id="bookIsbn" placeholder="Enter 10 or 13-digit ISBN">
+                        </div>
+                        <div class="form-group">
+                            <label for="bookCategory">Category *</label>
+                            <select id="bookCategory" required>
+                                <option value="">Select category</option>
+                                <option value="fiction">Fiction</option>
+                                <option value="textbooks">Textbooks</option>
+                                <option value="children">Children's Books</option>
+                                <option value="business">Business</option>
+                                <option value="history">History</option>
+                                <option value="science">Science & Technology</option>
+                                <option value="biography">Biography</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="mystery">Mystery</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookDescription">Description *</label>
+                        <textarea id="bookDescription" rows="4" placeholder="Describe the book, any special features, edition, etc." required></textarea>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Condition & Pricing -->
+                <div class="form-step" id="step2">
+                    <h3 class="form-title">Condition & Pricing</h3>
+                    <div class="form-group">
+                        <label>Condition *</label>
+                        <div class="condition-badges">
+                            <div class="condition-badge" data-condition="like-new">Like New</div>
+                            <div class="condition-badge" data-condition="very-good">Very Good</div>
+                            <div class="condition-badge" data-condition="good">Good</div>
+                            <div class="condition-badge" data-condition="fair">Fair</div>
+                        </div>
+                        <input type="hidden" id="bookCondition">
+                    </div>
+                    <div class="form-group">
+                        <label for="originalPrice">Original Price (Optional)</label>
+                        <input type="number" id="originalPrice" placeholder="Original retail price (for discount display)">
+                    </div>
+                    <div class="form-group">
+                        <label for="sellingPrice">Your Selling Price *</label>
+                        <div class="price-input-group">
+                            <span style="font-size: 1.2rem; font-weight: 600;">$</span>
+                            <input type="number" id="sellingPrice" placeholder="Enter your price" min="1" step="0.01" required>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                            BookVault charges a 10% commission on each sale.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Photos -->
+                <div class="form-step" id="step3">
+                    <h3 class="form-title">Add Photos</h3>
+                    <p style="margin-bottom: 1rem; color: #666;">Clear photos help your book sell faster. Include front cover, back cover, and any notable imperfections.</p>
+                    
+                    <div class="image-upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop or Click to Upload</h3>
+                        <p>Upload up to 5 photos (JPG, PNG, max 5MB each)</p>
+                        <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+                    </div>
+                    
+                    <div class="image-preview-container" id="previewContainer">
+                        <!-- Image previews will be added here -->
+                    </div>
+                </div>
+                
+                <!-- Step 4: Review -->
+                <div class="form-step" id="step4">
+                    <h3 class="form-title">Review Your Listing</h3>
+                    <p style="margin-bottom: 1.5rem;">Please review all details before submitting your book for sale.</p>
+                    
+                    <div class="review-card">
+                        <h3>Book Information</h3>
+                        <div class="review-item">
+                            <div class="review-label">Title:</div>
+                            <div id="reviewTitle">The Great Gatsby</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">Author:</div>
+                            <div id="reviewAuthor">F. Scott Fitzgerald</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">Category:</div>
+                            <div id="reviewCategory">Fiction</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">Description:</div>
+                            <div id="reviewDescription">A classic novel set in the Jazz Age, exploring themes of idealism, decadence, and the American Dream.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <h3>Pricing & Condition</h3>
+                        <div class="review-item">
+                            <div class="review-label">Condition:</div>
+                            <div id="reviewCondition">Like New</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">Original Price:</div>
+                            <div id="reviewOriginalPrice">$14.99</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">Your Price:</div>
+                            <div id="reviewSellingPrice">$8.99</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-label">You Earn:</div>
+                            <div id="reviewEarnings">$8.09 <span style="color:#666; font-size:0.9rem;">(after 10% commission)</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="review-card">
+                        <h3>Shipping</h3>
+                        <p>BookVault provides prepaid shipping labels. We'll deduct the shipping cost from your earnings when the book sells.</p>
+                        <p style="margin-top: 0.5rem; font-weight: 600;">Estimated shipping cost: $3.49</p>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label>
+                            <input type="checkbox" id="agreeTerms" required>
+                            I agree to the BookVault <a href="#" style="color: var(--primary);">Seller Terms</a> and confirm that this book is in the condition described.
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Success Message -->
+                <div class="form-step" id="successStep">
+                    <div class="success-message">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h2>Your Book is Listed!</h2>
+                        <p>Congratulations! Your book has been successfully listed on BookVault.</p>
+                        <p>We'll notify you when it sells. You can manage your listings in your Seller Dashboard.</p>
+                        <button class="btn btn-secondary" id="listAnotherBtn" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> List Another Book
+                        </button>
+                        <button class="btn btn-outline" id="viewDashboardBtn" style="margin-top: 1rem;">
+                            <i class="fas fa-tachometer-alt"></i> Go to Seller Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="prevBtn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button class="btn btn-primary" id="nextBtn">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCount = document.querySelector('.cart-count');
+            let count = 3; // Initial cart count
+            
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    count++;
+                    cartCount.textContent = count;
+                    
+                    // Animation effect
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Added!';
+                    button.style.backgroundColor = '#28a745';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.style.backgroundColor = '';
+                    }, 1500);
+                });
+            });
+            
+            // Search functionality
+            const searchButton = document.querySelector('.search-bar button');
+            const searchInput = document.querySelector('.search-bar input');
+            
+            searchButton.addEventListener('click', function() {
+                if(searchInput.value.trim() !== '') {
+                    alert(`Searching for: ${searchInput.value}`);
+                    searchInput.value = '';
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    if(searchInput.value.trim() !== '') {
+                        alert(`Searching for: ${searchInput.value}`);
+                        searchInput.value = '';
+                    }
+                }
+            });
+            
+            // Category click functionality
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.querySelector('h3').textContent;
+                    alert(`Showing books in category: ${category}`);
+                });
+            });
+            
+            // Sell Books Modal Functionality
+            const sellModal = document.getElementById('sellModal');
+            const sellBooksBtn = document.getElementById('sellBooksBtn');
+            const navSellLink = document.getElementById('navSellLink');
+            const closeModal = document.querySelector('.close-modal');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            const steps = document.querySelectorAll('.form-step');
+            const stepIndicators = document.querySelectorAll('.step');
+            let currentStep = 1;
+            
+            // Open modal
+            function openSellModal() {
+                sellModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+            
+            // Close modal
+            function closeSellModal() {
+                sellModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+            
+            // Event listeners for opening modal
+            sellBooksBtn.addEventListener('click', openSellModal);
+            navSellLink.addEventListener('click', openSellModal);
+            closeModal.addEventListener('click', closeSellModal);
+            
+            // Close modal when clicking outside content
+            sellModal.addEventListener('click', function(e) {
+                if (e.target === sellModal) {
+                    closeSellModal();
+                }
+            });
+            
+            // Step navigation
+            function showStep(step) {
+                // Hide all steps
+                steps.forEach(step => {
+                    step.classList.remove('active');
+                });
+                
+                // Show current step
+                document.getElementById(`step${step}`).classList.add('active');
+                
+                // Update step indicators
+                stepIndicators.forEach(indicator => {
+                    indicator.classList.remove('active');
+                    if (parseInt(indicator.dataset.step) === step) {
+                        indicator.classList.add('active');
+                    }
+                });
+                
+                // Update progress bar
+                progressBar.style.width = `${(step - 1) * 25}%`;
+                
+                // Update button text
+                if (step === 4) {
+                    nextBtn.innerHTML = 'Submit Listing <i class="fas fa-check"></i>';
+                } else if (step === 5) {
+                    nextBtn.style.display = 'none';
+                    prevBtn.style.display = 'none';
+                } else {
+                    nextBtn.innerHTML = 'Continue <i class="fas fa-arrow-right"></i>';
+                }
+                
+                // Show/hide back button
+                if (step === 1) {
+                    prevBtn.style.visibility = 'hidden';
+                } else {
+                    prevBtn.style.visibility = 'visible';
+                }
+            }
+            
+            // Next button click
+            nextBtn.addEventListener('click', function() {
+                if (currentStep === 4) {
+                    // On submit
+                    document.getElementById('step4').classList.remove('active');
+                    document.getElementById('successStep').classList.add('active');
+                    currentStep = 5;
+                    showStep(5);
+                } else {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+            
+            // Previous button click
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+            
+            // Condition badges selection
+            const conditionBadges = document.querySelectorAll('.condition-badge');
+            conditionBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    conditionBadges.forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    document.getElementById('bookCondition').value = this.dataset.condition;
+                });
+            });
+            
+            // Image upload functionality
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const previewContainer = document.getElementById('previewContainer');
+            
+            uploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    if (file.type.match('image.*')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imagePreview = document.createElement('div');
+                            imagePreview.className = 'image-preview';
+                            imagePreview.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview">
+                                <div class="remove-image"><i class="fas fa-times"></i></div>
+                            `;
+                            previewContainer.appendChild(imagePreview);
+                            
+                            // Add remove functionality
+                            const removeBtn = imagePreview.querySelector('.remove-image');
+                            removeBtn.addEventListener('click', function() {
+                                imagePreview.remove();
+                            });
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                }
+            });
+            
+            // Drag and drop functionality
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#4a6fa5';
+                this.style.backgroundColor = '#f0f8ff';
+            });
+            
+            uploadArea.addEventListener('dragleave', function() {
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+            });
+            
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.backgroundColor = '';
+                
+                const files = e.dataTransfer.files;
+                fileInput.files = files;
+                fileInput.dispatchEvent(new Event('change'));
+            });
+            
+            // Form data update for review step
+            nextBtn.addEventListener('click', function() {
+                if (currentStep === 3) {
+                    // Update review section before showing step 4
+                    document.getElementById('reviewTitle').textContent = document.getElementById('bookTitle').value || 'The Great Gatsby';
+                    document.getElementById('reviewAuthor').textContent = document.getElementById('bookAuthor').value || 'F. Scott Fitzgerald';
+                    document.getElementById('reviewCategory').textContent = 
+                        document.getElementById('bookCategory').options[document.getElementById('bookCategory').selectedIndex].text || 'Fiction';
+                    document.getElementById('reviewDescription').textContent = document.getElementById('bookDescription').value || 
+                        'A classic novel set in the Jazz Age, exploring themes of idealism, decadence, and the American Dream.';
+                    
+                    const conditionText = {
+                        'like-new': 'Like New',
+                        'very-good': 'Very Good',
+                        'good': 'Good',
+                        'fair': 'Fair'
+                    };
+                    document.getElementById('reviewCondition').textContent = 
+                        conditionText[document.getElementById('bookCondition').value] || 'Like New';
+                    
+                    const originalPrice = document.getElementById('originalPrice').value;
+                    document.getElementById('reviewOriginalPrice').textContent = originalPrice ? `$${originalPrice}` : 'Not provided';
+                    
+                    const sellingPrice = document.getElementById('sellingPrice').value || '8.99';
+                    document.getElementById('reviewSellingPrice').textContent = `$${sellingPrice}`;
+                    
+                    const earnings = (sellingPrice * 0.9).toFixed(2);
+                    document.getElementById('reviewEarnings').innerHTML = `$${earnings} <span style="color:#666; font-size:0.9rem;">(after 10% commission)</span>`;
+                }
+            });
+            
+            // Success step buttons
+            document.getElementById('listAnotherBtn').addEventListener('click', function() {
+                // Reset form and go back to step 1
+                document.getElementById('bookTitle').value = '';
+                document.getElementById('bookAuthor').value = '';
+                document.getElementById('bookIsbn').value = '';
+                document.getElementById('bookCategory').selectedIndex = 0;
+                document.getElementById('bookDescription').value = '';
+                document.getElementById('bookCondition').value = '';
+                conditionBadges.forEach(b => b.classList.remove('selected'));
+                document.getElementById('originalPrice').value = '';
+                document.getElementById('sellingPrice').value = '';
+                previewContainer.innerHTML = '';
+                document.getElementById('agreeTerms').checked = false;
+                
+                currentStep = 1;
+                showStep(1);
+                nextBtn.style.display = 'block';
+                prevBtn.style.display = 'block';
+            });
+            
+            document.getElementById('viewDashboardBtn').addEventListener('click', function() {
+                closeSellModal();
+                alert('Redirecting to Seller Dashboard...');
+            });
+        });
+    </script>
+</body>
+</html>
